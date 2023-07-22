@@ -1,0 +1,38 @@
+const http = require('http');
+const fs = require('fs');
+
+var server = http.createServer(function(request,response){
+    console.log("Llego una peticion a " + request.url);
+    switch(request.url) {
+        case "/":
+            fs.readFile("static/index.html", (error,datos) => {
+                if(error) {
+                    response.writeHead(500, { 'Content-Type': 'text/html' });
+                    response.end(error.toString());
+                } else {
+                    response.writeHead(200, { 'Content-Type': 'text/html' });
+                    response.end(datos.toString());
+                }
+            })
+            break;
+        case "/hola":
+            response.writeHead(200, { 'Content-Type': 'text/html' });
+            response.end("<b>Hola Mundo</b>");
+            break;
+        case "/chau":
+            response.writeHead(200, { 'Content-Type': 'text/html' });
+            response.end("Chau Mundo");
+            break;
+        case "/api/version":
+            var data = { version: "1.0.0" };
+            response.writeHead(200, { 'Content-Type': 'application/json'});
+            response.end(JSON.stringify(data));
+            break;
+        default:
+            response.end("No se encontro la pagina");
+    }
+});
+
+server.listen(88, function() {
+    console.log("Termino de levantar");
+});
