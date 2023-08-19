@@ -3,17 +3,22 @@ const router = express.Router();
 const datos = require("./datos/categoriasDatos");
 
 router.get("/",(req,res) => {
-    res.json([
-        {
-            id: 1,
-            nombre: "Noticias"
-        }
-    ])
+    datos.Listar((datos)=> {
+        res.json(datos);
+    })
 });
 
+router.get("/:id", (req,res) => {
+    datos.BuscarPorId(req.params.id, (dato) => res.json(dato));
+})
+
 router.post("/", (req, res) => {
-    datos.Insert(req.body,() => {
-        res.send("OK");
+    datos.Insert(req.body ,(error,datos) => {
+        if(error) {
+            res.status(404).send(error);
+        } else {
+            res.send(datos);
+        }
     })
 })
 

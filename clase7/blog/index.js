@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 
 // parse various different custom JSON types as JSON
-app.use(bodyParser.json({ type: 'application/*+json' }))
+app.use(bodyParser.json())
 
 const moduloVersion = require("./src/version");
 const moduloApi = require("./src/api");
