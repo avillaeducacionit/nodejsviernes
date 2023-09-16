@@ -1,0 +1,50 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<h1>Chat</h1>
+
+<div id="bloquePersona">
+    <input type="text" id="user" />
+    <input type="button" id="startChat" value="Iniciar chat" />
+</div>
+
+<div id="bloqueMensajes" style="display:none">
+    <div>
+        <ul id="messages">
+        </ul>
+        <input type="text" id="m" name="m" />
+        <input type="button" value="Enviar" id="send" />
+    </div>
+    <div>
+        <ul id="usuarios"></ul>
+    </div>
+</div>
+
+<script>
+    var socket = io.connect("http://localhost:8080");
+    var user = "";
+    socket.on("mensaje", function(datos) {
+        console.log(datos);
+    });
+
+    socket.on("chat message", function(datos) {
+        $("#messages").append($("<li>").text(datos.user + ": "+datos.message));
+    })
+    socket.on("users", function(datos) {
+        $("#usuarios").append($("<li>").text(datos.name));
+    })
+
+
+    $("#send").click(function(){
+        var texto = $("#m").val();
+        $("#m").val("");
+        socket.emit("chat message", {user: user, message: texto});
+    });
+
+    $("#startChat").click(function(){
+        user = $("#user").val();
+        $("#bloquePersona").hide();
+        $("#bloqueMensajes").show();
+        socket.emit("users", {name: user});
+    });
+
+</script>
