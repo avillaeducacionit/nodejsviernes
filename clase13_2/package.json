@@ -1,0 +1,21 @@
+{
+  "name": "clase13_2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel external -d external_lib",
+    "start": "npm run build&& node index"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.23.0",
+    "@babel/preset-env": "^7.22.20",
+    "axios": "^1.5.1",
+    "express": "^4.18.2",
+    "express-handlebars": "^7.1.2"
+  }
+}

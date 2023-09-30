@@ -1,5 +1,7 @@
 const request = require("supertest");
 const app = require("../app");
+const fakerjs = require("@faker-js/faker")
+const faker = fakerjs.fakerES;
 
 test("Deberia llamar a version", async() => {
     let response = await request(app).get("/version");
@@ -14,9 +16,11 @@ test("Deberia llamar a version con mayusculas", async() => {
 })
 
 test("Deberia crear una categoria", async() => {
+    let categoria = {"nombre": faker.string.sample()}
+    console.log(categoria);
     let response = await request(app)
     .post("/api/categorias/")
-    .send({"nombre": "Unit test"})
+    .send(categoria)
     
     expect(response.statusCode).toBe(200);
 })
